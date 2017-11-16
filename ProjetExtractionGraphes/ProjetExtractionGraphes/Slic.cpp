@@ -179,12 +179,12 @@ void Slic::create_connectivity(IplImage * image)
 */
 double Slic::compute_dist(int ci, CvPoint pixel, CvScalar colour) {
 
-	double distance = sqrt(pow(centers[ci][0] - colour.val[0], 2) + pow(centers[ci][1]
+	double distanceCluster = sqrt(pow(centers[ci][0] - colour.val[0], 2) + pow(centers[ci][1]
 		- colour.val[1], 2) + pow(centers[ci][2] - colour.val[2], 2));
 
-	double distance = sqrt(pow(centers[ci][3] - pixel.x, 2) + pow(centers[ci][4] - pixel.y, 2));
+	double distancePixel = sqrt(pow(centers[ci][3] - pixel.x, 2) + pow(centers[ci][4] - pixel.y, 2));
 
-	return sqrt(pow(distance / nc, 2) + pow(distance / ns, 2));
+	return sqrt(pow(distanceCluster / nc, 2) + pow(distancePixel / ns, 2));
 
 }
 
@@ -278,25 +278,7 @@ void Slic::init_data(IplImage *image) {
 }
 
 
-/*
-* Compute the distance between a cluster center and an individual pixel.
-*
-* Input : The cluster index (int), the pixel (CvPoint), and the Lab values of
-*         the pixel (CvScalar).
-* Output: The distance (double).
-*/
-double Slic::compute_dist(int ci, CvPoint pixel, CvScalar colour) {
 
-	double dc = sqrt(pow(centers[ci][0] - colour.val[0], 2) + pow(centers[ci][1]
-		- colour.val[1], 2) + pow(centers[ci][2] - colour.val[2], 2));
-
-	double ds = sqrt(pow(centers[ci][3] - pixel.x, 2) + pow(centers[ci][4] - pixel.y, 2));
-
-	return sqrt(pow(dc / nc, 2) + pow(ds / ns, 2));
-
-	//double w = 1.0 / (pow(ns / nc, 2));
-	//return sqrt(dc) + sqrt(ds * w);
-}
 
 /*
 * Display the cluster centers

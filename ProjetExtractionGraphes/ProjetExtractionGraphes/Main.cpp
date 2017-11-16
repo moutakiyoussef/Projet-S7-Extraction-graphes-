@@ -11,6 +11,7 @@
 #include <math.h>
 #include <vector>
 #include <float.h>
+#include "stdafx.h"
 using namespace std;
 
 #include "slic.h"
