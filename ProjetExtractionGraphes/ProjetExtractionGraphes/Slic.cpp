@@ -18,12 +18,156 @@ Slic::~Slic()
 	clear_data();
 }
 
+/*
+* Compute the over-segmentation based on the step-size and relative weighting
+* of the pixel and colour values.
+*
+* Input : The Lab image (IplImage*), the stepsize (int), and the weight (int).
+*/
 void Slic::generate_superpixels(IplImage * image, int step, int nc)
 {
+	this->step = step;
+	this->nc = nc;
+	this->ns = step;
+
+	/* Clear previous data (if any), and re-initialize it. */
+	clear_data();
+	init_data(image);
+
+	/* Run EM for 10 iterations (as prescribed by the algorithm). */
+	for (int i = 0; i < NR_ITERATIONS; i++) {
+		/* Reset distance values. */
+		for (int j = 0; j < image->width; j++) {
+			for (int k = 0;k < image->height; k++) {
+				distances[j][k] = FLT_MAX;
+			}
+		}
+
+		for (int j = 0; j < (int)centers.size(); j++) {
+			/* Only compare to pixels in a 2 x step by 2 x step region. */
+			for (int k = centers[j][3] - step; k < centers[j][3] + step; k++) {
+				for (int l = centers[j][4] - step; l < centers[j][4] + step; l++) {
+
+					if (k >= 0 && k < image->width && l >= 0 && l < image->height) {
+						CvScalar colour = cvGet2D(image, l, k);
+						double d = compute_dist(j, cvPoint(k, l), colour);
+
+						/* Update cluster allocation if the cluster minimizes the
+						distance. */
+						if (d < distances[k][l]) {
+							distances[k][l] = d;
+							clusters[k][l] = j;
+						}
+					}
+				}
+			}
+		}
+
+		/* Clear the center values. */
+		for (int j = 0; j < (int)centers.size(); j++) {
+			centers[j][0] = centers[j][1] = centers[j][2] = centers[j][3] = centers[j][4] = 0;
+			center_counts[j] = 0;
+		}
+
+		/* Compute the new cluster centers. */
+		for (int j = 0; j < image->width; j++) {
+			for (int k = 0; k < image->height; k++) {
+				int c_id = clusters[j][k];
+
+				if (c_id != -1) {
+					CvScalar colour = cvGet2D(image, k, j);
+
+					centers[c_id][0] += colour.val[0];
+					centers[c_id][1] += colour.val[1];
+					centers[c_id][2] += colour.val[2];
+					centers[c_id][3] += j;
+					centers[c_id][4] += k;
+
+					center_counts[c_id] += 1;
+				}
+			}
+		}
+
+		/* Normalize the clusters. */
+		for (int j = 0; j < (int)centers.size(); j++) {
+			centers[j][0] /= center_counts[j];
+			centers[j][1] /= center_counts[j];
+			centers[j][2] /= center_counts[j];
+			centers[j][3] /= center_counts[j];
+			centers[j][4] /= center_counts[j];
+		}
+	}
 }
 
+/*
+* Enforce connectivity of the superpixels. This part is not actively discussed
+* in the paper, but forms an active part of the implementation of the authors
+* of the paper.
+*
+* Input : The image (IplImage*).
+*/
 void Slic::create_connectivity(IplImage * image)
 {
+	int label = 0, adjlabel = 0;
+	const int lims = (image->width * image->height) / ((int)centers.size());
+
+	const int dx4[4] = { -1,  0,  1,  0 };
+	const int dy4[4] = { 0, -1,  0,  1 };
+
+	/* Initialize the new cluster matrix. */
+	vec2di new_clusters;
+	for (int i = 0; i < image->width; i++) {
+		vector<int> nc;
+		for (int j = 0; j < image->height; j++) {
+			nc.push_back(-1);
+		}
+		new_clusters.push_back(nc);
+	}
+
+	for (int i = 0; i < image->width; i++) {
+		for (int j = 0; j < image->height; j++) {
+			if (new_clusters[i][j] == -1) {
+				vector<CvPoint> elements;
+				elements.push_back(cvPoint(i, j));
+
+				/* Find an adjacent label, for possible use later. */
+				for (int k = 0; k < 4; k++) {
+					int x = elements[0].x + dx4[k], y = elements[0].y + dy4[k];
+
+					if (x >= 0 && x < image->width && y >= 0 && y < image->height) {
+						if (new_clusters[x][y] >= 0) {
+							adjlabel = new_clusters[x][y];
+						}
+					}
+				}
+
+				int count = 1;
+				for (int c = 0; c < count; c++) {
+					for (int k = 0; k < 4; k++) {
+						int x = elements[c].x + dx4[k], y = elements[c].y + dy4[k];
+
+						if (x >= 0 && x < image->width && y >= 0 && y < image->height) {
+							if (new_clusters[x][y] == -1 && clusters[i][j] == clusters[x][y]) {
+								elements.push_back(cvPoint(x, y));
+								new_clusters[x][y] = label;
+								count += 1;
+							}
+						}
+					}
+				}
+
+				/* Use the earlier found adjacent label if a segment size is
+				smaller than a limit. */
+				if (count <= lims >> 2) {
+					for (int c = 0; c < count; c++) {
+						new_clusters[elements[c].x][elements[c].y] = adjlabel;
+					}
+					label -= 1;
+				}
+				label += 1;
+			}
+		}
+	}
 }
 
 /*
@@ -78,6 +222,14 @@ CvPoint Slic::find_local_minimum(IplImage * image, CvPoint center)
 	return localMinimum;
 }
 
+
+void Slic::clear_data()
+{
+	clusters.clear();
+	distances.clear();
+	centers.clear();
+	center_counts.clear();
+}
 
 /*
 * Initialize the cluster centers and initial values of the pixel-wise cluster
