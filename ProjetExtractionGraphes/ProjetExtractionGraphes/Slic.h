@@ -6,7 +6,7 @@
 * Written by: Youssef Moutaki.
 *
 * This file contains the class elements of the class Slic. This class is an
-* implementation of the SLIC Superpixel algorithm by Achanta et al.
+* implementation of the SLIC Superpixel algorithm.
 *
 * This implementation is created for the specific purpose of creating
 * over-segmentations in an OpenCV-based environment.

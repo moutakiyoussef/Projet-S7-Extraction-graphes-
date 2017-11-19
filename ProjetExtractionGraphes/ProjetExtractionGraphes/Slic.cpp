@@ -259,7 +259,7 @@ void Slic::init_data(IplImage *image) {
 		for (int j = step; j < image->height - step / 2; j += step)
 		{
 			vector<double> center;
-			/* Find the local minimum(gradient-wise) */
+			/* Find the local minimum */
 			CvPoint nc = find_local_minimum(image, cvPoint(i, j));
 			CvScalar colour = cvGet2D(image, nc.x, nc.y);
 
