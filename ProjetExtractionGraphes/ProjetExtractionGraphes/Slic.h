@@ -51,7 +51,7 @@ private:
 
 /*Youssef*/
 	/* Compute the distance between a center and an individual pixel. */
-	double compute_dist(int ci, CvPoint pixel, CvScalar colour);
+	double compute_distance(int ci, CvPoint pixel, CvScalar colour);
 
 	/* Find the pixel with the lowest gradient in a 3x3 surrounding. */
 	CvPoint find_local_minimum(IplImage *image, CvPoint center);
@@ -59,7 +59,7 @@ private:
 /*Cédric*/
 	/* Remove and initialize the 2d vectors. */
 	void clear_data();
-	void init_data(IplImage *image);
+	void initialize_data(IplImage *image);
 
 public:
 

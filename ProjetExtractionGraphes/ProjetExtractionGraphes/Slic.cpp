@@ -19,8 +19,7 @@ Slic::~Slic()
 }
 
 /*
-* Compute the over-segmentation based on the step-size and relative weighting
-* of the pixel and colour values.
+* Compute the over-segmentation 
 *
 * Input : The Lab image (IplImage*), the stepsize (int), and the weight (int).
 */
@@ -32,7 +31,7 @@ void Slic::generate_superpixels(IplImage * image, int step, int nc)
 
 	/* Clear previous data (if any), and re-initialize it. */
 	clear_data();
-	init_data(image);
+	initialize_data(image);
 
 	/* Run EM for 10 iterations (as prescribed by the algorithm). */
 	for (int i = 0; i < NR_ITERATIONS; i++) {
@@ -50,7 +49,7 @@ void Slic::generate_superpixels(IplImage * image, int step, int nc)
 
 					if (k >= 0 && k < image->width && l >= 0 && l < image->height) {
 						CvScalar colour = cvGet2D(image, l, k);
-						double d = compute_dist(j, cvPoint(k, l), colour);
+						double d = compute_distance(j, cvPoint(k, l), colour);
 
 						/* Update cluster allocation if the cluster minimizes the
 						distance. */
@@ -177,7 +176,7 @@ void Slic::create_connectivity(IplImage * image)
 *         the pixel (CvScalar).
 * Output: The distance (double).
 */
-double Slic::compute_dist(int ci, CvPoint pixel, CvScalar colour) {
+double Slic::compute_distance(int ci, CvPoint pixel, CvScalar colour) {
 
 	double distanceCluster = sqrt(pow(centers[ci][0] - colour.val[0], 2) + pow(centers[ci][1]
 		- colour.val[1], 2) + pow(centers[ci][2] - colour.val[2], 2));
@@ -190,8 +189,7 @@ double Slic::compute_dist(int ci, CvPoint pixel, CvScalar colour) {
 
 
 /*
-* Find a local gradient minimum of a pixel in a 3x3 neighbourhood. This
-* method is called upon initialization of the cluster centers.
+* Find a local gradient minimum of a pixel in a 3x3 neighbourhood.
 *
 * Input : The image (IplImage*) and the pixel center (CvPoint).
 * Output: The local gradient minimum (CvPoint).
@@ -202,10 +200,12 @@ CvPoint Slic::find_local_minimum(IplImage * image, CvPoint center)
 	CvPoint localMinimum = cvPoint(center.x, center.y);
 
 	for (int i = center.x - 1; i < center.x + 2; i++) {
-		for (int j = center.y - 1; i < center.y + 2; j++) {
+		for (int j = center.y - 1; j < center.y + 2; j++) {
 			CvScalar cs1 = cvGet2D(image, j + 1, i);
 			CvScalar cs2 = cvGet2D(image, j, i + 1);
 			CvScalar cs3 = cvGet2D(image, j, i);
+
+
 			//Convert colour values to grayscale values
 			double v1 = cs1.val[0];
 			double v2 = cs2.val[0];
@@ -222,7 +222,9 @@ CvPoint Slic::find_local_minimum(IplImage * image, CvPoint center)
 	return localMinimum;
 }
 
-
+/*
+* CLear any data exist
+*/
 void Slic::clear_data()
 {
 	clusters.clear();
@@ -232,13 +234,13 @@ void Slic::clear_data()
 }
 
 /*
-* Initialize the cluster centers and initial values of the pixel-wise cluster
+* Initialize the cluster centers and initial values of the pixel cluster
 * assignment and distance values
 *
 * Input : The image(IplImage)
 *Output : -
 */
-void Slic::init_data(IplImage *image) {
+void Slic::initialize_data(IplImage *image) {
 	/* Initialize the cluster and distance matrices */
 	for (int i = 0; i < image->width; i++)
 	{
@@ -303,8 +305,6 @@ void Slic::display_contours(IplImage *image, CvScalar colour) {
 	const int dx8[8] = { -1, -1,  0,  1, 1, 1, 0, -1 };
 	const int dy8[8] = { 0, -1, -1, -1, 0, 1, 1,  1 };
 
-	/* Initialize the contour vector and the matrix detailing whether a pixel
-	* is already taken to be a contour. */
 	vector<CvPoint> contours;
 	vec2db istaken;
 	for (int i = 0; i < image->width; i++) {
@@ -315,7 +315,7 @@ void Slic::display_contours(IplImage *image, CvScalar colour) {
 		istaken.push_back(nb);
 	}
 
-	/* Go through all the pixels. */
+	
 	for (int i = 0; i < image->width; i++) {
 		for (int j = 0; j < image->height; j++) {
 			int nr_p = 0;
