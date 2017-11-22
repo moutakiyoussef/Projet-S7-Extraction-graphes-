@@ -3,13 +3,11 @@
 
 /* slic.h.
 *
-* Written by: Youssef Moutaki.
+* Written by: Youssef Moutaki, Cedric Cognard
 *
 * This file contains the class elements of the class Slic. This class is an
 * implementation of the SLIC Superpixel algorithm.
 *
-* This implementation is created for the specific purpose of creating
-* over-segmentations in an OpenCV-based environment.
 */
 
 #include <opencv/cv.h>
@@ -74,8 +72,7 @@ public:
 	void create_connectivity(IplImage *image);
 
 /*Cédric*/
-	/* Draw functions. Resp. displayal of the centers and the contours. */
-	void display_center_grid(IplImage *image, CvScalar colour);
+	/* Draw functions. Resp. displayal of the contours. */
 	void display_contours(IplImage *image, CvScalar colour);
 	void colour_with_cluster_means(IplImage *image);
 };

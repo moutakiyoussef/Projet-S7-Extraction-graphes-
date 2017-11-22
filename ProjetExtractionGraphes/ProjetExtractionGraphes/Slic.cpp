@@ -283,19 +283,6 @@ void Slic::initialize_data(IplImage *image) {
 
 
 /*
-* Display the cluster centers
-*
-* Input : The image to display upon (IplImage*) and the colour (CvScalar)
-* Output :
-*/
-void Slic::display_center_grid(IplImage *image, CvScalar colour) {
-	for (int i = 0; i < (int)centers.size(); i++) {
-		cvCircle(image, cvPoint(centers[i][3], centers[i][4]), 2, colour, 3);
-	}
-}
-
-
-/*
 * Display a single pixel wide contour around the clusters.
 *
 * Input : The target image (IplImage*) and contour colour (CvScalar).
