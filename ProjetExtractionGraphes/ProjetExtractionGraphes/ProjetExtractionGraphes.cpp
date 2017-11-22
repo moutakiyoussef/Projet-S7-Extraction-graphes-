@@ -18,7 +18,7 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 	/* Load the image and convert to Lab colour space. */
-	IplImage *image = cvLoadImage("../data/exemple.jpg", 1);
+	IplImage *image = cvLoadImage("../data/exemple1.jpg", 1);
 
 	IplImage *lab_image = cvCloneImage(image);
 	cvCvtColor(image, lab_image, CV_BGR2Lab);
@@ -39,6 +39,6 @@ int main(int argc, char *argv[]) {
 	slic.display_contours(image, CV_RGB(255, 0, 0));
 	cvShowImage("result", image);
 	cvWaitKey(0);
-	cvSaveImage("../data/result.jpg", image);
+	cvSaveImage("../data/result1.jpg", image);
 	return 0;
 }

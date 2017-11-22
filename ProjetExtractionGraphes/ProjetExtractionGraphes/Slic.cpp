@@ -290,7 +290,7 @@ void Slic::initialize_data(IplImage *image) {
 */
 void Slic::display_center_grid(IplImage *image, CvScalar colour) {
 	for (int i = 0; i < (int)centers.size(); i++) {
-		cvCircle(image, cvPoint(centers[i][3], centers[i][4]), 2, colour, 2);
+		cvCircle(image, cvPoint(centers[i][3], centers[i][4]), 2, colour, 3);
 	}
 }
 
