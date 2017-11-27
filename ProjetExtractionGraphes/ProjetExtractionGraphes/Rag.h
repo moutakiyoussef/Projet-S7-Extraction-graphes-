@@ -14,14 +14,15 @@
 #include <math.h>
 #include <vector>
 #include <float.h>
+#include "Slic.h"
 using namespace std;
 /* 2d matrices are handled by 2d vectors. */
 #define vec2dd vector<vector<double> >
 #define vec2di vector<vector<int> >
 #define vec2db vector<vector<bool> >
 
-class Rag
-{
+
+class Rag: public Slic{
 private:
 	/* The LAB and xy values of the centers. */
 	vec2dd centers;

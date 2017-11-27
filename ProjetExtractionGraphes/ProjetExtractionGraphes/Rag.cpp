@@ -22,6 +22,12 @@ Rag::~Rag()
 * Output :
 */
 void Rag::display_center_grid(IplImage *image, CvScalar colour) {
+	
+	int steps = this->step;
+	int ncs = this->nc;
+
+	Slic::generate_superpixels(image,steps, ncs);
+	Slic::create_connectivity(image);
 	for (int i = 0; i < (int)centers.size(); i++) {
 		cvCircle(image, cvPoint(centers[i][3], centers[i][4]), 2, colour, 1);
 	}

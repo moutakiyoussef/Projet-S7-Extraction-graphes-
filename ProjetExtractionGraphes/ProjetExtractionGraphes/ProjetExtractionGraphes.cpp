@@ -37,12 +37,20 @@ int main(int argc, char *argv[]) {
 	slic.generate_superpixels(image, step, nc);
 	slic.create_connectivity(image);
 
+
+
+
 	/* Display the contours and show the result. */
 	slic.display_contours(image, CV_RGB(255, 0, 0));
 	/* Display the centers and show the result. */
 	rag.display_center_grid(image, CV_RGB(0, 255, 0));
+	/* Show the image result*/
 	cvShowImage("result", image);
 	cvWaitKey(0);
+	/* Save the image result*/
 	cvSaveImage("../data/result.jpg", image);
+	/*
+	slic.DisplayID(image);
+	std::getchar();*/
 	return 0;
 }

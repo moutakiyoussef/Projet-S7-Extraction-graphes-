@@ -43,9 +43,7 @@ private:
 	/* The number of occurences of each center. */
 	vector<int> center_counts;
 
-	/* The step size per cluster, and the colour (nc) and distance (ns)
-	* parameters. */
-	int step, nc, ns;
+	
 
 /*Youssef*/
 	/* Compute the distance between a center and an individual pixel. */
@@ -61,6 +59,10 @@ private:
 
 public:
 
+	/* The step size per cluster, and the colour (nc) and distance (ns)
+	* parameters. */
+	int step, nc, ns;
+
 /*Youssef*/
 	/* Class constructors and deconstructors. */
 	Slic();
@@ -68,13 +70,15 @@ public:
 
 	/* Generate an over-segmentation for an image. */
 	void generate_superpixels(IplImage *image, int step, int nc);
+	/*Display all centers ID*/
+	void DisplayID(IplImage * image);
 	/* Enforce connectivity for an image. */
 	void create_connectivity(IplImage *image);
 
 /*Cédric*/
 	/* Draw functions. Resp. displayal of the contours. */
 	void display_contours(IplImage *image, CvScalar colour);
-	void colour_with_cluster_means(IplImage *image);
+	
 };
 
 #endif
