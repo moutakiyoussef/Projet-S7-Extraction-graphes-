@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Slic.h"
-#include <iostream>
 
 
 /*
@@ -15,23 +14,12 @@ Slic::Slic()
 * Destructor. Clear any present data.
 */
 Slic::~Slic()
-{	
+{
 	clear_data();
 }
 
 /*
-* CLear any data exist
-*/
-void Slic::clear_data()
-{
-	clusters.clear();
-	distances.clear();
-	centers.clear();
-	center_counts.clear();
-}
-
-/*
-* Compute the over-segmentation 
+* Compute the over-segmentation
 *
 * Input : The Lab image (IplImage*), the stepsize (int), and the weight (int).
 */
@@ -108,18 +96,6 @@ void Slic::generate_superpixels(IplImage * image, int step, int nc)
 			centers[j][4] /= center_counts[j];
 		}
 	}
-}
-
-void Slic::DisplayID(IplImage* image) {
-
-	int c_id = 0;
-	for (int j = 0; j < image->width; j++) {
-		for (int k = 0; k < image->height; k++) {
-			c_id = clusters[j][k];
-			cout << c_id;
-		}
-	}
-	
 }
 
 /*
@@ -246,13 +222,23 @@ CvPoint Slic::find_local_minimum(IplImage * image, CvPoint center)
 	return localMinimum;
 }
 
+/*
+* CLear any data exist
+*/
+void Slic::clear_data()
+{
+	clusters.clear();
+	distances.clear();
+	centers.clear();
+	center_counts.clear();
+}
 
 /*
 * Initialize the cluster centers and initial values of the pixel cluster
 * assignment and distance values
 *
 * Input : The image(IplImage)
-*Output : 
+*Output : -
 */
 void Slic::initialize_data(IplImage *image) {
 	/* Initialize the cluster and distance matrices */
@@ -300,7 +286,7 @@ void Slic::initialize_data(IplImage *image) {
 * Display a single pixel wide contour around the clusters.
 *
 * Input : The target image (IplImage*) and contour colour (CvScalar).
-* Output: 
+* Output: -
 */
 void Slic::display_contours(IplImage *image, CvScalar colour) {
 	const int dx8[8] = { -1, -1,  0,  1, 1, 1, 0, -1 };
@@ -316,7 +302,7 @@ void Slic::display_contours(IplImage *image, CvScalar colour) {
 		istaken.push_back(nb);
 	}
 
-	
+
 	for (int i = 0; i < image->width; i++) {
 		for (int j = 0; j < image->height; j++) {
 			int nr_p = 0;
@@ -345,4 +331,3 @@ void Slic::display_contours(IplImage *image, CvScalar colour) {
 		cvSet2D(image, contours[i].y, contours[i].x, colour);
 	}
 }
-

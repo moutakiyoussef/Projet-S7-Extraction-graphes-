@@ -23,6 +23,7 @@ Rag::~Rag()
 */
 void Rag::display_center_grid(IplImage *image, CvScalar colour) {
 	
+
 	int steps = this->step;
 	int ncs = this->nc;
 

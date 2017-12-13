@@ -1,3 +1,5 @@
+#ifndef RAG_H
+#define RAG_H
 #pragma once
 /* slic.h.
 *
@@ -8,29 +10,19 @@
 *
 */
 
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
 #include <stdio.h>
-#include <math.h>
-#include <vector>
-#include <float.h>
+#include "ImageData.h"
 #include "Slic.h"
-using namespace std;
-/* 2d matrices are handled by 2d vectors. */
-#define vec2dd vector<vector<double> >
-#define vec2di vector<vector<int> >
-#define vec2db vector<vector<bool> >
 
 
-class Rag: public Slic{
-private:
-	/* The LAB and xy values of the centers. */
-	vec2dd centers;
+class Rag : public Slic
+{
 public:
 	/* Class constructors and deconstructors. */
 	Rag();
 	~Rag();
 	/* Draw functions. Resp. displayal of the centers. */
 	void display_center_grid(IplImage *image, CvScalar colour);
-};
 
+};
+#endif
