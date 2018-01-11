@@ -169,6 +169,11 @@ void Slic::create_connectivity(IplImage * image)
 	}
 }
 
+
+void Slic::stockageGraph()
+{
+}
+
 /*
 * Compute the distance between a cluster center and an individual pixel.
 *
@@ -265,6 +270,7 @@ void Slic::initialize_data(IplImage *image) {
 			CvPoint nc = find_local_minimum(image, cvPoint(i, j));
 			CvScalar colour = cvGet2D(image, nc.x, nc.y);
 
+			
 			/* Generate the center vector */
 			center.push_back(colour.val[0]);
 			center.push_back(colour.val[1]);
@@ -329,5 +335,34 @@ void Slic::display_contours(IplImage *image, CvScalar colour) {
 	/* Draw the contour pixels. */
 	for (int i = 0; i < (int)contours.size(); i++) {
 		cvSet2D(image, contours[i].y, contours[i].x, colour);
+	}
+}
+
+
+/*
+* Display the cluster centers
+*
+* Input : The image to display upon and the colour
+* Output :
+*/
+void Slic::display_center_grid(IplImage *image, CvScalar colour) {
+
+	for (int i = 0; i < (int)centers.size(); i++) {
+		cvCircle(image, cvPoint(centers[i][3], centers[i][4]), 2, colour, 1);
+	}
+}
+
+/*
+* Display the graph
+*
+* Input : The image to display upon and the colour
+* Output :
+*/
+void Slic::display_graph(IplImage * image, CvScalar colour)
+{
+	for (int i = 0; i < 360; i++) {
+		
+			cvLine(image, cvPoint(centers[i][3], centers[i][4]), cvPoint(centers[i+1][3], centers[i+1][4]), colour, 1);
+			
 	}
 }

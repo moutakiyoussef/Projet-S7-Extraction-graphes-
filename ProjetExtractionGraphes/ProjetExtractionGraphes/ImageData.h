@@ -15,6 +15,7 @@
 #define NR_ITERATIONS 10
 
 using namespace std;
+using namespace cv;
 class ImageData
 {
 public:

@@ -27,21 +27,18 @@ using namespace std;
 class Slic : public ImageData {
 private:
 
-	/*Youssef*/
 	/* Compute the distance between a center and an individual pixel. */
 	double compute_distance(int ci, CvPoint pixel, CvScalar colour);
 
 	/* Find the pixel with the lowest gradient in a 3x3 surrounding. */
 	CvPoint find_local_minimum(IplImage *image, CvPoint center);
 
-	/*Cédric*/
 	/* Remove and initialize the 2d vectors. */
 	void clear_data();
 	void initialize_data(IplImage *image);
 
 public:
 
-	/*Youssef*/
 	/* Class constructors and deconstructors. */
 	Slic();
 	~Slic();
@@ -51,10 +48,17 @@ public:
 	/* Enforce connectivity for an image. */
 	void create_connectivity(IplImage *image);
 
-	/*Cédric*/
 	/* Draw functions. Resp. displayal of the contours. */
 	void display_contours(IplImage *image, CvScalar colour);
 	
+	/* Draw functions. Resp. displayal of the centers. */
+	void display_center_grid(IplImage *image, CvScalar colour);
+	
+	/*Storage Graph*/
+	void stockageGraph();
+
+	/* Draw functions. Resp. displayal of the graph. */
+	void display_graph(IplImage *image, CvScalar colour);
 };
 
 #endif

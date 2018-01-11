@@ -14,15 +14,40 @@
 #include "ImageData.h"
 #include "Slic.h"
 
+// Structure of a vertex
+struct vertex {
+	int i;
+	struct node *list;
+	struct vertex *next;
+};
+typedef struct vertex * VPTR;
 
-class Rag : public Slic
+// Struct of adjacency list
+struct node {
+	struct vertex * n;
+	struct node *next;
+};
+
+typedef struct node * NODEPTR;
+
+class Rag : public ImageData
 {
+
+
 public:
-	/* Class constructors and deconstructors. */
-	Rag();
+
+	// list of nodes chained together
+	VPTR V;
+	Rag() {
+		V = NULL;
+	}
 	~Rag();
-	/* Draw functions. Resp. displayal of the centers. */
-	void display_center_grid(IplImage *image, CvScalar colour);
+	void addEdge(int i, int j);
+	VPTR  addVertex(int i);
+	VPTR existVertex(int i);
+	void listVertex();
+	void find_mean_rgb(cv::Mat imag);
+	
 
 };
 #endif

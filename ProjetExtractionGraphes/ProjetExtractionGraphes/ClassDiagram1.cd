@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ImageData">
+    <Position X="2.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAEAAAAAIAAAEAgIAgAgAAAAAAAAgA=</HashCode>
+      <FileName>ImageData.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Rag">
+    <Position X="4.75" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAKCAAAAAAAIAAAIAAAAABAAAAAAAAQAAA=</HashCode>
+      <FileName>Rag.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Slic">
+    <Position X="0.5" Y="2" Width="1.75" />
+    <InheritanceLine Type="ImageData" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.375" Y="0.5" />
+        <Point X="3.375" Y="0.189" />
+        <Point X="1.375" Y="0.189" />
+        <Point X="1.375" Y="2" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAABAgAAAAAAAAIIAAAAAAAAAAAFAAACAIAAUBAAAAA=</HashCode>
+      <FileName>Slic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="vertex">
+    <Position X="7" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAIAAAA=</HashCode>
+      <FileName>Rag.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="node">
+    <Position X="2.5" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAA=</HashCode>
+      <FileName>Rag.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="VPTR" Collapsed="true">
+    <Position X="7" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rag.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="NODEPTR" Collapsed="true">
+    <Position X="2.5" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rag.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
